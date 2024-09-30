@@ -1,6 +1,6 @@
 {
 	"config": {
-		"target": "{{ $processEnvironment.API_URL }}",
+		"target": "{{ $processEnvironment.API_URL || https://vettingapp.yellowbay-127d4b30.westus2.azurecontainerapps.io  }}",  
 		"phases": [
 			{ "duration": 60, "arrivalRate": 5, "name": "Warm up" },
 			{
@@ -14,9 +14,9 @@
 		"defaults": {
 			"headers": {
 				"Content-Type": "application/json",
-				"Authorization": "Bearer {{ $processEnvironment.API_TOKEN }}"
+				"Authorization": "Bearer {{ $processEnvironment.API_TOKEN || eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2YWY4MDI3ZGM3NDgxNGFlZDJkOWM3NyIsImlhdCI6MTcyNzY5ODczNSwiZXhwIjoxNzI3Nzg1MTM1fQ.Nagd01BpgNqL2NBr_9AhXFIJKSKK9Z9mzeEWf_1-6rQ  }}"
 			}
-      
+
 		}
 	},
 	"scenarios": [
@@ -25,25 +25,26 @@
 			"flow": [
 				{
 					"get": {
-						"url": "/api/endpoint1"
+						"url": "/questions/generate-questions"
 					}
 				},
 				{
 					"post": {
-						"url": "/api/endpoint2",
+						"url": "/api/auth/register",
 						"json": {
 							"key": "value"
 						}
 					}
 				},
 				{
-					"put": {
-						"url": "/api/endpoint3/{{ $randomNumber(1, 1000) }}",
+					"post": {
+						"url": "/api/auth/login",
 						"json": {
-							"updateKey": "updateValue"
+							"key": "value"
 						}
 					}
 				}
+
 			]
 		}
 	]
