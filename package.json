@@ -1,0 +1,13 @@
+{
+  "name": "azure-api-performance-test",
+  "version": "1.0.0",
+  "description": "Performance testing for Azure-hosted API",
+  "scripts": {
+    "test": "artillery run loadTest.json",
+    "test:output": "artillery run --output test-run-report.json run loadTest.json",
+    "report": "artillery report test-run-report.json"
+  },
+  "devDependencies": {
+    "artillery": "^2.0.0-27"
+  }
+}

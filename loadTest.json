@@ -1,0 +1,50 @@
+{
+	"config": {
+		"target": "{{ $processEnvironment.API_URL }}",
+		"phases": [
+			{ "duration": 60, "arrivalRate": 5, "name": "Warm up" },
+			{
+				"duration": 120,
+				"arrivalRate": 5,
+				"rampTo": 50,
+				"name": "Ramp up load"
+			},
+			{ "duration": 300, "arrivalRate": 50, "name": "Sustained load" }
+		],
+		"defaults": {
+			"headers": {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer {{ $processEnvironment.API_TOKEN }}"
+			}
+      
+		}
+	},
+	"scenarios": [
+		{
+			"name": "API test scenario",
+			"flow": [
+				{
+					"get": {
+						"url": "/api/endpoint1"
+					}
+				},
+				{
+					"post": {
+						"url": "/api/endpoint2",
+						"json": {
+							"key": "value"
+						}
+					}
+				},
+				{
+					"put": {
+						"url": "/api/endpoint3/{{ $randomNumber(1, 1000) }}",
+						"json": {
+							"updateKey": "updateValue"
+						}
+					}
+				}
+			]
+		}
+	]
+}
